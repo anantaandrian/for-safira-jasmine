@@ -23,20 +23,20 @@ body{
   overflow:hidden;
 }
 
-/* PAGE */
+/* PAGE TRANSITION (LEBIH HALUS) */
 .page{
   position:absolute;
   width:100%;
   max-width:460px;
   padding:20px;
   opacity:0;
-  transform:translateY(25px);
+  transform:translateY(40px) scale(.97);
   pointer-events:none;
-  transition:.7s ease;
+  transition:opacity .9s ease, transform .9s ease;
 }
 .page.active{
   opacity:1;
-  transform:translateY(0);
+  transform:translateY(0) scale(1);
   pointer-events:auto;
 }
 
@@ -62,15 +62,15 @@ button{
   border:none;
   border-radius:30px;
   cursor:pointer;
+  transition:transform .35s ease;
 }
 .yes{background:#fff;color:#ff5f9e;}
 .no{background:#ff3366;color:#fff;}
 .next{background:#fff;color:#ff5f9e;margin-top:22px}
 
-/* YEAY TEXT */
+/* YEAY */
 .yeay{
-  font-size:34px;
-  margin-bottom:10px;
+  font-size:36px;
   animation:pulse 1.6s ease-in-out infinite;
 }
 @keyframes pulse{
@@ -79,7 +79,7 @@ button{
   100%{transform:scale(1)}
 }
 
-/* CONFETTI HEARTS */
+/* CONFETTI */
 .confetti{
   position:absolute;
   top:-20px;
@@ -92,7 +92,7 @@ button{
   to{transform:translateY(120%) rotate(360deg)}
 }
 
-/* PHOTOS */
+/* PHOTO GRID */
 .photo-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -139,22 +139,20 @@ button{
   <div class="glass-box">
     <h1>Will you be my Valentine, Safira? 🤍</h1>
     <div class="buttons">
-      <button class="yes" onclick="goToPage(2)">Yes</button>
-      <button class="no">No</button>
+      <button class="yes" id="yesBtn">Yes</button>
+      <button class="no" id="noBtn">No</button>
     </div>
   </div>
 </div>
 
-<!-- PAGE 2 YEAY -->
+<!-- PAGE 2 : YEAY -->
 <div class="page" id="page2">
   <div class="glass-box">
 
-    <!-- CONFETTI -->
-    <span class="confetti" style="left:10%">🤍</span>
-    <span class="confetti" style="left:30%;animation-delay:1s">🤍</span>
-    <span class="confetti" style="left:50%;animation-delay:2s">🤍</span>
-    <span class="confetti" style="left:70%;animation-delay:.5s">🤍</span>
-    <span class="confetti" style="left:90%;animation-delay:1.5s">🤍</span>
+    <span class="confetti" style="left:15%">🤍</span>
+    <span class="confetti" style="left:35%;animation-delay:1s">🤍</span>
+    <span class="confetti" style="left:55%;animation-delay:2s">🤍</span>
+    <span class="confetti" style="left:75%;animation-delay:.5s">🤍</span>
 
     <h1 class="yeay" id="yeayText"></h1>
     <p>I know u will say Yes! hehe</p>
@@ -164,8 +162,26 @@ button{
   </div>
 </div>
 
-<!-- PAGE 3 -->
+<!-- PAGE 3 : MUSIC -->
 <div class="page" id="page3">
+  <div class="glass-box">
+    <h2>This song is for you 🎵</h2>
+
+    <iframe
+      style="border-radius:12px;margin-top:14px"
+      src="https://open.spotify.com/embed/track/34gCuhDGsG4bRPIf9bb02f"
+      width="100%"
+      height="80"
+      frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+    </iframe>
+
+    <button class="next" onclick="goToPage(4)">Next</button>
+  </div>
+</div>
+
+<!-- PAGE 4 : MESSAGE -->
+<div class="page" id="page4">
   <div class="glass-box">
     <h2>Happy Valentine’s Day, Bubuu 🤍</h2>
 
@@ -183,19 +199,20 @@ button{
 
     <p>
       By the way, here's a cute creature I named <b>Pingy</b> so she can be friends
-      with <b>Milly</b>. I hope Pingy can be your friend when you miss me.
+      with <b>Milly</b>. I hope Pingy can accompany you when you miss me, like Milly
+      who always accompanies me when I really miss you.
     </p>
 
     <p>
       Happy Valentine's Day to us. Let's not stop loving each other. 🤍
     </p>
 
-    <button class="next" onclick="goToPage(4)">Next</button>
+    <button class="next" onclick="goToPage(5)">Next</button>
   </div>
 </div>
 
-<!-- PAGE 4 -->
-<div class="page" id="page4">
+<!-- PAGE 5 : PHOTOS -->
+<div class="page" id="page5">
   <div class="glass-box">
     <h2>Our Memories 📸</h2>
     <p>
@@ -222,24 +239,33 @@ button{
 </div>
 
 <script>
+/* YES GROW WHEN NO CLICKED */
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+let scale=1;
+
+noBtn.onclick=()=>{
+  scale+=0.25;
+  yesBtn.style.transform=`scale(${scale})`;
+};
+
 /* PAGE SWITCH */
 function goToPage(page){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById("page"+page).classList.add("active");
-
   if(page===2) typeYeay();
 }
 
-/* TYPING YEAY */
+/* YEAY TYPING */
 function typeYeay(){
   const text="YEAYYY!! 🤍";
   const el=document.getElementById("yeayText");
   el.textContent="";
   let i=0;
-  const typing=setInterval(()=>{
+  const t=setInterval(()=>{
     el.textContent+=text[i];
     i++;
-    if(i>=text.length) clearInterval(typing);
+    if(i>=text.length) clearInterval(t);
   },120);
 }
 
@@ -251,6 +277,8 @@ function openModal(src){
 function closeModal(){
   document.getElementById("modal").classList.remove("active");
 }
+
+yesBtn.onclick=()=>goToPage(2);
 </script>
 
 </body>
