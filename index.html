@@ -3,152 +3,202 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Will You Be My Valentine?</title>
+  <title>For Safira Jasmine 🤍</title>
+
   <style>
     body {
       margin: 0;
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #ff5f9e, #ff9fcf);
       color: #fff;
+
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       min-height: 100vh;
       text-align: center;
     }
+
     .page {
       display: none;
-      max-width: 700px;
-      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      box-sizing: border-box;
     }
+
     .page.active {
       display: block;
     }
+
     h1, h2 {
       margin-bottom: 20px;
     }
+
     p {
-      line-height: 1.7;
-      margin-bottom: 20px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      color: white;
     }
+
     .buttons {
-      margin-top: 30px;
-      position: relative;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 25px;
     }
+
     button {
       padding: 12px 28px;
-      font-size: 18px;
+      font-size: 16px;
       border: none;
       border-radius: 30px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
+
     .yes {
-      background: #fff;
+      background: white;
       color: #ff5f9e;
-      z-index: 2;
       position: relative;
+      z-index: 2;
     }
+
     .no {
       background: #ff3366;
-      color: #fff;
-      margin-left: 15px;
+      color: white;
       position: relative;
       z-index: 1;
     }
+
     .next {
-      background: #fff;
+      background: white;
       color: #ff5f9e;
       margin-top: 20px;
     }
+
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      margin-top: 30px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 20px;
     }
+
     .photo-slot {
-      background: rgba(255,255,255,0.3);
-      border: 2px dashed #fff;
+      height: 140px;
       border-radius: 15px;
-      height: 150px;
+      border: 2px dashed white;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 14px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .love-text {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    iframe {
+      margin-top: 20px;
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Page 1 -->
+  <!-- PAGE 1 -->
   <div class="page active" id="page1">
-    <h1>Will you be my Valentine, Safira? 💘</h1>
+    <h1>Will you be my Valentine, Safira? 🤍</h1>
     <div class="buttons">
       <button class="yes" id="yesBtn">Yes</button>
       <button class="no" id="noBtn">No</button>
     </div>
   </div>
 
-  <!-- Page 2 -->
+  <!-- PAGE 2 -->
   <div class="page" id="page2">
-    <h2>Happy Valentine’s Day, Bubuu 💘</h2>
-    <p style="color:white;">
-      Today is a good reminder for us to love a little louder, laugh a little more, and care a hundred times harder. Let’s love 100x more—more smiles, more patience, more silly moments, and more reasons to choose each other every day.
+    <h2>Happy Valentine’s Day, Bubuu 🤍</h2>
+
+    <p>
+      Today is a good reminder for us to love a little louder, laugh a little more,
+      and care a hundred times harder. Let’s love 100x more—more smiles, more patience,
+      more silly moments, and more reasons to choose each other every day.
     </p>
-    <p style="color:white;">
-      Let’s keep growing together, not perfectly, but happily. Learning as we go, teasing each other, supporting each other, and always finding our way back to love.
+
+    <p>
+      Let’s keep growing together, not perfectly, but happily. Learning as we go,
+      teasing each other, supporting each other, and always finding our way back to love.
     </p>
-    <p style="color:white;">
-      May our love stay fun, warm, and full of small moments that mean everything. More memories, more laughter, and more love—over and over again.
+
+    <p>
+      May our love stay fun, warm, and full of small moments that mean everything.
+      More memories, more laughter, and more love—over and over again.
     </p>
-    <p style="color:white;">Happy Valentine’s Day to us. Let’s keep loving 100x more. 💖</p>
+
+    <p>
+      Happy Valentine’s Day to us. Let’s keep loving 100x more. 🤍
+    </p>
+
+    <!-- Spotify Embed -->
+    <iframe
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/track/34gCuhDGsG4bRPIf9bb02f"
+      width="100%"
+      height="80"
+      frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+    </iframe>
+
     <button class="next" onclick="goToPage(3)">Next</button>
   </div>
 
-  <!-- Page 3 -->
+  <!-- PAGE 3 -->
   <div class="page" id="page3">
     <h2>Our Memories 📸</h2>
+
     <p>
-      From our first photo to this very moment, everything is here. I hope we keep taking more photos together and creating memories—forever.
+      From our first photo to this very moment, everything is here.
+      I hope we keep taking more photos together and creating memories—forever.
     </p>
+
     <div class="photo-grid">
       <div class="photo-slot">Photo 1</div>
       <div class="photo-slot">Photo 2</div>
       <div class="photo-slot">Photo 3</div>
       <div class="photo-slot">Photo 4</div>
     </div>
+
+    <div class="love-text">
+      love u so much bubuu🤍
+    </div>
   </div>
 
   <script>
-    let noScale = 1;
-    const yesBtn = document.getElementById('yesBtn');
-    const noBtn = document.getElementById('noBtn');
+    let scale = 1;
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
 
-    noBtn.addEventListener('click', () => {
-      noScale += 0.3;
-      yesBtn.style.transform = `scale(${noScale})`;
-      if (noScale > 2.5) {
-        noBtn.style.display = 'none';
+    noBtn.addEventListener("click", () => {
+      scale += 0.3;
+      yesBtn.style.transform = `scale(${scale})`;
+      if (scale > 2.5) {
+        noBtn.style.display = "none";
       }
     });
 
-    yesBtn.addEventListener('click', () => {
+    yesBtn.addEventListener("click", () => {
       goToPage(2);
     });
 
     function goToPage(page) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('page' + page).classList.add('active');
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById("page" + page).classList.add("active");
     }
   </script>
-
-    <!-- Spotify Embed: Thinking Out Loud - Ed Sheeran -->
-  <iframe style="border-radius:12px; margin-top:20px" 
-    src="https://open.spotify.com/embed/track/34gCuhDGsG4bRPIf9bb02f" 
-    width="100%" height="80" frameBorder="0" 
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-  </iframe>
 
 </body>
 </html>
