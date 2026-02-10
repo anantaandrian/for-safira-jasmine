@@ -12,7 +12,7 @@
       color: #fff;
 
       background:
-        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
         url("background.jpeg");
       background-size: cover;
       background-position: center;
@@ -26,17 +26,18 @@
       overflow: hidden;
     }
 
+    /* PAGE TRANSITION */
     .page {
       position: absolute;
       width: 100%;
-      max-width: 420px;
+      max-width: 460px;
       padding: 20px;
       box-sizing: border-box;
 
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(25px);
       pointer-events: none;
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
     .page.active {
@@ -45,16 +46,11 @@
       pointer-events: auto;
     }
 
-    /* Page 3 lebih redup */
-    #page3 {
-      background: rgba(0,0,0,0.25);
-      border-radius: 28px;
-    }
-
+    /* GLASS BOX */
     .glass-box {
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 26px;
-      padding: 26px 20px;
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 28px;
+      padding: 26px 22px;
       box-sizing: border-box;
     }
 
@@ -65,19 +61,18 @@
     p {
       line-height: 1.6;
       margin-bottom: 14px;
-      color: white;
     }
 
+    /* BUTTONS */
     .buttons {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-top: 25px;
+      gap: 16px;
+      margin-top: 26px;
     }
 
     button {
-      padding: 12px 28px;
+      padding: 13px 30px;
       font-size: 16px;
       border: none;
       border-radius: 30px;
@@ -88,51 +83,83 @@
     .yes {
       background: white;
       color: #ff5f9e;
-      z-index: 2;
-      position: relative;
     }
 
     .no {
       background: #ff3366;
       color: white;
-      z-index: 1;
-      position: relative;
     }
 
     .next {
       background: white;
       color: #ff5f9e;
-      margin-top: 20px;
+      margin-top: 22px;
     }
 
     iframe {
-      margin-top: 15px;
+      margin-top: 16px;
     }
 
+    /* PHOTO GRID 3x2 */
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 18px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 20px;
     }
 
     .photo-grid img {
       width: 100%;
-      height: 140px;
+      height: 130px;
       object-fit: cover;
-      border-radius: 16px;
-      filter: brightness(0.85);
-      transition: transform 0.3s ease;
+      border-radius: 18px;
+      filter: brightness(0.78);
+      cursor: pointer;
+
+      animation: slowZoom 14s ease-in-out infinite alternate;
     }
 
     .photo-grid img:hover {
-      transform: scale(1.03);
+      filter: brightness(0.9);
     }
 
     .love-text {
-      margin-top: 18px;
+      margin-top: 20px;
       font-size: 18px;
       font-weight: bold;
+    }
+
+    /* SLOW ZOOM ANIMATION */
+    @keyframes slowZoom {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.08);
+      }
+    }
+
+    /* FULLSCREEN MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 22px;
+
+      animation: slowZoom 18s ease-in-out infinite alternate;
+    }
+
+    .modal.active {
+      display: flex;
     }
   </style>
 </head>
@@ -167,11 +194,6 @@
       </p>
 
       <p>
-        May our love stay fun, warm, and full of small moments that mean everything.
-        More memories, more laughter, and more love—over and over again.
-      </p>
-
-      <p>
         Happy Valentine’s Day to us. Let’s keep loving 100x more. 🤍
       </p>
 
@@ -194,23 +216,28 @@
       <h2>Our Memories 📸</h2>
 
       <p>
-        From our first photo to this very moment, everything is here.
-        I hope we keep taking more photos together and creating memories—forever.
+        From our first photo to this very moment.
+        I hope we keep taking more photos together—forever.
       </p>
 
       <div class="photo-grid">
-        <img src="photo1.jpeg">
-        <img src="photo2.jpeg">
-        <img src="photo3.jpeg">
-        <img src="photo4.jpeg">
-        <img src="photo5.jpeg">
-        <img src="photo6.jpeg">
+        <img src="photo1.jpeg" onclick="openModal(this.src)">
+        <img src="photo2.jpeg" onclick="openModal(this.src)">
+        <img src="photo3.jpeg" onclick="openModal(this.src)">
+        <img src="photo4.jpeg" onclick="openModal(this.src)">
+        <img src="photo5.jpeg" onclick="openModal(this.src)">
+        <img src="photo6.jpeg" onclick="openModal(this.src)">
       </div>
 
       <div class="love-text">
         love u so much bubuu🤍
       </div>
     </div>
+  </div>
+
+  <!-- FULLSCREEN -->
+  <div class="modal" id="modal" onclick="closeModal()">
+    <img id="modalImg">
   </div>
 
   <script>
@@ -221,9 +248,7 @@
     noBtn.addEventListener("click", () => {
       scale += 0.3;
       yesBtn.style.transform = `scale(${scale})`;
-      if (scale > 2.5) {
-        noBtn.style.display = "none";
-      }
+      if (scale > 2.5) noBtn.style.display = "none";
     });
 
     yesBtn.addEventListener("click", () => {
@@ -233,6 +258,15 @@
     function goToPage(page) {
       document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
       document.getElementById("page" + page).classList.add("active");
+    }
+
+    function openModal(src) {
+      document.getElementById("modalImg").src = src;
+      document.getElementById("modal").classList.add("active");
+    }
+
+    function closeModal() {
+      document.getElementById("modal").classList.remove("active");
     }
   </script>
 
