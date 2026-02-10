@@ -50,7 +50,10 @@ body{
   justify-content:center;
   gap:16px;
   margin-top:26px;
+  position:relative;
+  height:80px;
 }
+
 button{
   padding:13px 30px;
   font-size:16px;
@@ -58,8 +61,14 @@ button{
   border-radius:30px;
   cursor:pointer;
 }
+
 .yes{background:#fff;color:#ff5f9e;}
-.no{background:#ff3366;color:#fff;}
+.no{
+  background:#ff3366;
+  color:#fff;
+  position:absolute;
+}
+
 .next{background:#fff;color:#ff5f9e;margin-top:22px;}
 
 .photo-grid{
@@ -113,12 +122,11 @@ button{
   </div>
 </div>
 
-<!-- PAGE 2 : TAP TO PLAY -->
+<!-- PAGE 2 -->
 <div class="page" id="page2">
   <div class="glass-box">
     <h2>Tap to Play 🎵</h2>
     <p>Play this song before we continue 🤍</p>
-
     <iframe
       style="border-radius:12px;margin-top:12px"
       src="https://open.spotify.com/embed/track/34gCuhDGsG4bRPIf9bb02f"
@@ -127,7 +135,6 @@ button{
       frameborder="0"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
     </iframe>
-
     <button class="next" onclick="goToPage(3)">Next</button>
   </div>
 </div>
@@ -163,15 +170,14 @@ button{
   </div>
 </div>
 
-
-<!-- PAGE 4 : PHOTOS + FULL TEXT -->
+<!-- PAGE 4 -->
 <div class="page" id="page4">
   <div class="glass-box">
     <h2>Our Memories 📸</h2>
 
     <p>
-      From our first photo to now, 
-      I hope we continue to take more photos together, 
+      From our first photo to now,
+      I hope we continue to take more photos together,
       as many as possible, and forever.
     </p>
 
@@ -196,16 +202,37 @@ button{
 <script>
 const yesBtn = document.getElementById("yesBtn");
 const noBtn  = document.getElementById("noBtn");
-let scale = 1;
 
-/* YES BECOMES BIGGER WHEN NO CLICKED */
+let noClickCount = 0;
+
+/* YES normal */
+yesBtn.onclick = () => goToPage(2);
+
+/* NO kabur max 5 kali */
 noBtn.onclick = () => {
-  scale += 0.3;
-  yesBtn.style.transform = `scale(${scale})`;
-  if(scale > 2.5) noBtn.style.display = "none";
+  noClickCount++;
+
+  if(noClickCount < 5){
+    moveNo();
+  }else{
+    noBtn.textContent = "r u sure? just say yes";
+    noBtn.style.left = "50%";
+    noBtn.style.top  = "0";
+    noBtn.style.transform = "translateX(-50%)";
+  }
 };
 
-yesBtn.onclick = () => goToPage(2);
+function moveNo(){
+  const padding = 20;
+  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top  = y + "px";
+}
 
 function goToPage(page){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
