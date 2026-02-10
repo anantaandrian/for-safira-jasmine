@@ -31,7 +31,7 @@ body{
   opacity:0;
   transform:translateY(25px);
   pointer-events:none;
-  transition:.7s ease;
+  transition:opacity .7s ease, transform .7s ease;
 }
 .page.active{
   opacity:1;
@@ -45,22 +45,28 @@ body{
   padding:26px 22px;
 }
 
+h1,h2{margin-bottom:18px}
+p{line-height:1.6;margin-bottom:14px}
+
 .buttons{
   display:flex;
   justify-content:center;
   gap:16px;
   margin-top:26px;
 }
+
 button{
   padding:13px 30px;
   font-size:16px;
   border:none;
   border-radius:30px;
   cursor:pointer;
+  transition:.3s ease;
 }
-.yes{background:#fff;color:#ff5f9e;}
-.no{background:#ff3366;color:#fff;}
-.next{background:#fff;color:#ff5f9e;margin-top:22px;}
+
+.yes{background:#fff;color:#ff5f9e}
+.no{background:#ff3366;color:#fff}
+.next{background:#fff;color:#ff5f9e;margin-top:22px}
 
 .photo-grid{
   display:grid;
@@ -68,6 +74,7 @@ button{
   gap:14px;
   margin-top:20px;
 }
+
 .photo-grid img{
   width:100%;
   height:130px;
@@ -77,6 +84,7 @@ button{
   animation:slowZoom 14s ease-in-out infinite alternate;
   cursor:pointer;
 }
+
 @keyframes slowZoom{
   from{transform:scale(1)}
   to{transform:scale(1.08)}
@@ -91,16 +99,39 @@ button{
   align-items:center;
   z-index:999;
 }
-.modal.active{display:flex;}
+.modal.active{display:flex}
 .modal img{
   max-width:90%;
   max-height:90%;
   border-radius:22px;
 }
+
+/* small music button */
+#musicToggle{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:none;
+  background:rgba(255,255,255,.85);
+  font-size:18px;
+  cursor:pointer;
+  display:none;
+  z-index:1000;
+}
 </style>
 </head>
 
 <body>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicToggle">⏸</button>
 
 <!-- PAGE 1 -->
 <div class="page active" id="page1">
@@ -113,26 +144,16 @@ button{
   </div>
 </div>
 
-<!-- PAGE 2 : TAP TO PLAY -->
+<!-- PAGE 2 -->
 <div class="page" id="page2">
   <div class="glass-box">
     <h2>Tap to Play 🎵</h2>
-    <p>Play this song before we continue 🤍</p>
-
-    <iframe
-      style="border-radius:12px;margin-top:12px"
-      src="https://open.spotify.com/embed/track/34gCuhDGsG4bRPIf9bb02f"
-      width="100%"
-      height="80"
-      frameborder="0"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-    </iframe>
-
-    <button class="next" onclick="goToPage(3)">Next</button>
+    <p>Tap once, then let the song stay with us 🤍</p>
+    <button class="next" id="playMusicBtn">Tap to Play 🤍</button>
   </div>
 </div>
 
-<!-- PAGE 3 : FULL VALENTINE TEXT -->
+<!-- PAGE 3 -->
 <div class="page" id="page3">
   <div class="glass-box">
     <h2>Happy Valentine’s Day, Bubuu 🤍</h2>
@@ -156,7 +177,7 @@ button{
   </div>
 </div>
 
-<!-- PAGE 4 : PHOTOS + FULL TEXT -->
+<!-- PAGE 4 -->
 <div class="page" id="page4">
   <div class="glass-box">
     <h2>Our Memories 📸</h2>
@@ -187,16 +208,46 @@ button{
 <script>
 const yesBtn = document.getElementById("yesBtn");
 const noBtn  = document.getElementById("noBtn");
+const playBtn = document.getElementById("playMusicBtn");
+const audio = document.getElementById("bgMusic");
+const musicToggle = document.getElementById("musicToggle");
+
 let scale = 1;
 
-/* YES BECOMES BIGGER WHEN NO CLICKED */
+/* YES grows when NO clicked */
 noBtn.onclick = () => {
   scale += 0.3;
   yesBtn.style.transform = `scale(${scale})`;
   if(scale > 2.5) noBtn.style.display = "none";
 };
 
+/* YES -> page 2 */
 yesBtn.onclick = () => goToPage(2);
+
+/* TAP TO PLAY */
+playBtn.onclick = () => {
+  audio.volume = 0.6;
+  audio.play().catch(()=>{});
+  musicToggle.style.display = "block";
+  goToPage(3);
+};
+
+/* PAUSE / PLAY */
+musicToggle.onclick = () => {
+  if(audio.paused){
+    audio.play();
+    musicToggle.textContent = "⏸";
+  }else{
+    audio.pause();
+    musicToggle.textContent = "▶";
+  }
+};
+
+/* STOP WHEN CLOSED */
+window.addEventListener("beforeunload",()=>{
+  audio.pause();
+  audio.currentTime = 0;
+});
 
 function goToPage(page){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
