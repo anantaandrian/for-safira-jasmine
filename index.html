@@ -1,250 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For Safira Jasmine 🤍</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Safira Jasmine 🤍</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: #fff;
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  color:#fff;
+  background:
+    linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+    url("background.jpeg");
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  text-align:center;
+  overflow:hidden;
+}
 
-      background:
-        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
-        url("background.jpeg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+/* PAGE TRANSITION */
+.page{
+  position:absolute;
+  width:100%;
+  max-width:460px;
+  padding:20px;
+  opacity:0;
+  transform:translateY(25px);
+  pointer-events:none;
+  transition:.7s ease;
+}
+.page.active{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      text-align: center;
-      overflow: hidden;
-    }
+/* GLASS BOX */
+.glass-box{
+  background:rgba(0,0,0,.55);
+  border-radius:28px;
+  padding:26px 22px;
+}
 
-    .page {
-      position: absolute;
-      width: 100%;
-      max-width: 460px;
-      padding: 20px;
-      box-sizing: border-box;
-      opacity: 0;
-      transform: translateY(25px);
-      pointer-events: none;
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
+/* BUTTONS */
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-top:26px;
+}
+button{
+  padding:13px 30px;
+  font-size:16px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+}
+.yes{background:#fff;color:#ff5f9e;}
+.no{background:#ff3366;color:#fff;}
+.next{background:#fff;color:#ff5f9e;margin-top:22px;}
 
-    .page.active {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
+/* PHOTO GRID */
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:20px;
+}
+.photo-grid img{
+  width:100%;
+  height:130px;
+  object-fit:cover;
+  border-radius:18px;
+  filter:brightness(.78);
+  cursor:pointer;
+  animation:slowZoom 14s ease-in-out infinite alternate;
+}
+@keyframes slowZoom{
+  from{transform:scale(1)}
+  to{transform:scale(1.08)}
+}
 
-    .glass-box {
-      background: rgba(0, 0, 0, 0.55);
-      border-radius: 28px;
-      padding: 26px 22px;
-    }
+/* FULLSCREEN */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+.modal.active{display:flex;}
+.modal img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:22px;
+  animation:slowZoom 18s ease-in-out infinite alternate;
+}
 
-    h1, h2 {
-      margin-bottom: 18px;
-    }
-
-    p {
-      line-height: 1.6;
-      margin-bottom: 14px;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 26px;
-    }
-
-    button {
-      padding: 13px 30px;
-      font-size: 16px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-    }
-
-    .yes {
-      background: white;
-      color: #ff5f9e;
-    }
-
-    .no {
-      background: #ff3366;
-      color: white;
-    }
-
-    .next {
-      background: white;
-      color: #ff5f9e;
-      margin-top: 22px;
-    }
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 20px;
-    }
-
-    .photo-grid img {
-      width: 100%;
-      height: 130px;
-      object-fit: cover;
-      border-radius: 18px;
-      filter: brightness(0.78);
-      cursor: pointer;
-      animation: slowZoom 14s ease-in-out infinite alternate;
-    }
-
-    @keyframes slowZoom {
-      from { transform: scale(1); }
-      to { transform: scale(1.08); }
-    }
-
-    .love-text {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .modal img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 22px;
-      animation: slowZoom 18s ease-in-out infinite alternate;
-    }
-
-    .modal.active {
-      display: flex;
-    }
-  </style>
+/* 🎵 SMALL PAUSE BUTTON */
+.music-btn{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:rgba(255,255,255,.9);
+  color:#ff5f9e;
+  font-size:18px;
+  border:none;
+  cursor:pointer;
+  display:none;
+  z-index:1000;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- AUDIO -->
-  <audio id="bgMusic" loop>
-    <source src="thinking-out-loud.mp3" type="audio/mpeg">
-  </audio>
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+  <source src="thinking-out-loud.mp3" type="audio/mpeg">
+</audio>
 
-  <!-- PAGE 1 -->
-  <div class="page active" id="page1">
-    <div class="glass-box">
-      <h1>Will you be my Valentine, Safira? 🤍</h1>
-      <div class="buttons">
-        <button class="yes" id="yesBtn">Yes</button>
-        <button class="no" id="noBtn">No</button>
-      </div>
+<!-- PAUSE BUTTON -->
+<button class="music-btn" id="musicBtn">⏸</button>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <div class="glass-box">
+    <h1>Will you be my Valentine, Safira? 🤍</h1>
+    <div class="buttons">
+      <button class="yes" id="yesBtn">Yes</button>
+      <button class="no" id="noBtn">No</button>
     </div>
   </div>
+</div>
 
-  <!-- PAGE 2 -->
-  <div class="page" id="page2">
-    <div class="glass-box">
-      <h2>Happy Valentine’s Day, Bubuu 🤍</h2>
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <div class="glass-box">
+    <h2>Happy Valentine’s Day, Bubuu 🤍</h2>
+    <p>Let’s love 100x more, laugh more, and grow together.</p>
+    <button class="next" onclick="goToPage(3)">Next</button>
+  </div>
+</div>
 
-      <p>
-        Let’s love 100x more — more smiles, more patience,
-        more silly moments, and more reasons to choose each other every day.
-      </p>
-
-      <p>
-        Let’s grow together, laugh together,
-        and keep loving in our own simple, beautiful way.
-      </p>
-
-      <p>
-        Happy Valentine’s Day to us 🤍
-      </p>
-
-      <button class="next" onclick="goToPage(3)">Next</button>
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <div class="glass-box">
+    <h2>Our Memories 📸</h2>
+    <div class="photo-grid">
+      <img src="photo1.jpeg" onclick="openModal(this.src)">
+      <img src="photo2.jpeg" onclick="openModal(this.src)">
+      <img src="photo3.jpeg" onclick="openModal(this.src)">
+      <img src="photo4.jpeg" onclick="openModal(this.src)">
+      <img src="photo5.jpeg" onclick="openModal(this.src)">
+      <img src="photo6.jpeg" onclick="openModal(this.src)">
     </div>
+    <p><b>love u so much bubuu🤍</b></p>
   </div>
+</div>
 
-  <!-- PAGE 3 -->
-  <div class="page" id="page3">
-    <div class="glass-box">
-      <h2>Our Memories 📸</h2>
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="closeModal()">
+  <img id="modalImg">
+</div>
 
-      <p>
-        From our first photo to this very moment.
-        I hope we keep taking more photos together—forever.
-      </p>
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
 
-      <div class="photo-grid">
-        <img src="photo1.jpeg" onclick="openModal(this.src)">
-        <img src="photo2.jpeg" onclick="openModal(this.src)">
-        <img src="photo3.jpeg" onclick="openModal(this.src)">
-        <img src="photo4.jpeg" onclick="openModal(this.src)">
-        <img src="photo5.jpeg" onclick="openModal(this.src)">
-        <img src="photo6.jpeg" onclick="openModal(this.src)">
-      </div>
+let playing = false;
+let scale = 1;
 
-      <div class="love-text">
-        love u so much bubuu🤍
-      </div>
-    </div>
-  </div>
+/* NO BUTTON */
+noBtn.onclick = () => {
+  scale += 0.3;
+  yesBtn.style.transform = `scale(${scale})`;
+  if (scale > 2.5) noBtn.style.display = "none";
+};
 
-  <!-- MODAL -->
-  <div class="modal" id="modal" onclick="closeModal()">
-    <img id="modalImg">
-  </div>
+/* AUTOPLAY AFTER YES */
+yesBtn.onclick = () => {
+  music.currentTime = 48;   // "Darling, I will be loving you"
+  music.volume = 0.5;      // volume normal
+  music.play();
+  playing = true;
+  musicBtn.style.display = "block";
+  goToPage(2);
+};
 
-  <script>
-    let scale = 1;
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const music = document.getElementById("bgMusic");
+/* PAUSE / PLAY */
+musicBtn.onclick = () => {
+  if (playing) {
+    music.pause();
+    musicBtn.textContent = "▶";
+  } else {
+    music.play();
+    musicBtn.textContent = "⏸";
+  }
+  playing = !playing;
+};
 
-    noBtn.addEventListener("click", () => {
-      scale += 0.3;
-      yesBtn.style.transform = `scale(${scale})`;
-      if (scale > 2.5) noBtn.style.display = "none";
-    });
+/* STOP MUSIC WHEN TAB CLOSED / CHANGED */
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    music.pause();
+    music.currentTime = 0;
+    musicBtn.textContent = "▶";
+    playing = false;
+  }
+});
 
-    yesBtn.addEventListener("click", () => {
-      music.currentTime = 48; // mulai dari "Darling I will be loving you"
-      music.volume = 0.5;     // volume normal & nyaman
-      music.play();
-      goToPage(2);
-    });
+/* PAGE CONTROL */
+function goToPage(page){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("page"+page).classList.add("active");
+}
 
-    function goToPage(page) {
-      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-      document.getElementById("page" + page).classList.add("active");
-    }
-
-    function openModal(src) {
-      document.getElementById("modalImg").src = src;
-      document.getElementById("modal").classList.add("active");
-    }
-
-    function closeModal() {
-      document.getElementById("modal").classList.remove("active");
-    }
-  </script>
+/* FULLSCREEN PHOTO */
+function openModal(src){
+  document.getElementById("modalImg").src = src;
+  document.getElementById("modal").classList.add("active");
+}
+function closeModal(){
+  document.getElementById("modal").classList.remove("active");
+}
+</script>
 
 </body>
 </html>
