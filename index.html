@@ -23,7 +23,6 @@ body{
   overflow:hidden;
 }
 
-/* PAGE TRANSITION */
 .page{
   position:absolute;
   width:100%;
@@ -40,20 +39,19 @@ body{
   pointer-events:auto;
 }
 
-/* GLASS BOX */
 .glass-box{
   background:rgba(0,0,0,.55);
   border-radius:28px;
   padding:26px 22px;
 }
 
-/* BUTTONS */
 .buttons{
   display:flex;
   justify-content:center;
   gap:16px;
   margin-top:26px;
 }
+
 button{
   padding:13px 30px;
   font-size:16px;
@@ -61,32 +59,33 @@ button{
   border-radius:30px;
   cursor:pointer;
 }
+
 .yes{background:#fff;color:#ff5f9e;}
 .no{background:#ff3366;color:#fff;}
 .next{background:#fff;color:#ff5f9e;margin-top:22px;}
 
-/* PHOTO GRID */
 .photo-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:14px;
   margin-top:20px;
 }
+
 .photo-grid img{
   width:100%;
   height:130px;
   object-fit:cover;
   border-radius:18px;
   filter:brightness(.78);
-  cursor:pointer;
   animation:slowZoom 14s ease-in-out infinite alternate;
+  cursor:pointer;
 }
+
 @keyframes slowZoom{
   from{transform:scale(1)}
   to{transform:scale(1.08)}
 }
 
-/* FULLSCREEN */
 .modal{
   display:none;
   position:fixed;
@@ -101,62 +100,71 @@ button{
   max-width:90%;
   max-height:90%;
   border-radius:22px;
-  animation:slowZoom 18s ease-in-out infinite alternate;
-}
-
-/* 🎵 SMALL PAUSE BUTTON */
-.music-btn{
-  position:fixed;
-  bottom:18px;
-  right:18px;
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:rgba(255,255,255,.9);
-  color:#ff5f9e;
-  font-size:18px;
-  border:none;
-  cursor:pointer;
-  display:none;
-  z-index:1000;
 }
 </style>
 </head>
 
 <body>
 
-<!-- AUDIO -->
-<audio id="bgMusic" loop>
-  <source src="thinking-out-loud.mp3" type="audio/mpeg">
-</audio>
-
-<!-- PAUSE BUTTON -->
-<button class="music-btn" id="musicBtn">⏸</button>
-
 <!-- PAGE 1 -->
 <div class="page active" id="page1">
   <div class="glass-box">
     <h1>Will you be my Valentine, Safira? 🤍</h1>
     <div class="buttons">
-      <button class="yes" id="yesBtn">Yes</button>
-      <button class="no" id="noBtn">No</button>
+      <button class="yes" onclick="goToPage(2)">Yes</button>
+      <button class="no">No</button>
     </div>
   </div>
 </div>
 
-<!-- PAGE 2 -->
+<!-- PAGE 2 : TAP TO PLAY -->
 <div class="page" id="page2">
   <div class="glass-box">
-    <h2>Happy Valentine’s Day, Bubuu 🤍</h2>
-    <p>Let’s love 100x more, laugh more, and grow together.</p>
+    <h2>Tap to Play 🎵</h2>
+    <p>Play this song before we continue 🤍</p>
+
+    <iframe
+      id="spotifyPlayer"
+      style="border-radius:12px; margin-top:12px;"
+      src="https://open.spotify.com/embed/track/34gCuhDGsG4bRPIf9bb02f"
+      width="100%"
+      height="80"
+      frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+    </iframe>
+
     <button class="next" onclick="goToPage(3)">Next</button>
   </div>
 </div>
 
-<!-- PAGE 3 -->
+<!-- PAGE 3 : WORDS -->
 <div class="page" id="page3">
   <div class="glass-box">
+    <h2>Happy Valentine’s Day, Bubuu 🤍</h2>
+
+    <p>
+      Today is a good reminder for us to love a little louder,
+      laugh a little more, and care a hundred times harder.
+    </p>
+
+    <p>
+      Let’s love 100x more — more smiles, more patience,
+      more silly moments, and more reasons to choose each other every day.
+    </p>
+
+    <p>
+      Let’s keep growing together, not perfectly, but happily.
+    </p>
+
+    <button class="next" onclick="goToPage(4)">Next</button>
+  </div>
+</div>
+
+<!-- PAGE 4 : PHOTOS -->
+<div class="page" id="page4">
+  <div class="glass-box">
     <h2>Our Memories 📸</h2>
+
     <div class="photo-grid">
       <img src="photo1.jpeg" onclick="openModal(this.src)">
       <img src="photo2.jpeg" onclick="openModal(this.src)">
@@ -165,6 +173,7 @@ button{
       <img src="photo5.jpeg" onclick="openModal(this.src)">
       <img src="photo6.jpeg" onclick="openModal(this.src)">
     </div>
+
     <p><b>love u so much bubuu🤍</b></p>
   </div>
 </div>
@@ -175,60 +184,11 @@ button{
 </div>
 
 <script>
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const music = document.getElementById("bgMusic");
-const musicBtn = document.getElementById("musicBtn");
-
-let playing = false;
-let scale = 1;
-
-/* NO BUTTON */
-noBtn.onclick = () => {
-  scale += 0.3;
-  yesBtn.style.transform = `scale(${scale})`;
-  if (scale > 2.5) noBtn.style.display = "none";
-};
-
-/* AUTOPLAY AFTER YES */
-yesBtn.onclick = () => {
-  music.currentTime = 48;   // "Darling, I will be loving you"
-  music.volume = 0.5;      // volume normal
-  music.play();
-  playing = true;
-  musicBtn.style.display = "block";
-  goToPage(2);
-};
-
-/* PAUSE / PLAY */
-musicBtn.onclick = () => {
-  if (playing) {
-    music.pause();
-    musicBtn.textContent = "▶";
-  } else {
-    music.play();
-    musicBtn.textContent = "⏸";
-  }
-  playing = !playing;
-};
-
-/* STOP MUSIC WHEN TAB CLOSED / CHANGED */
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    music.pause();
-    music.currentTime = 0;
-    musicBtn.textContent = "▶";
-    playing = false;
-  }
-});
-
-/* PAGE CONTROL */
 function goToPage(page){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById("page"+page).classList.add("active");
 }
 
-/* FULLSCREEN PHOTO */
 function openModal(src){
   document.getElementById("modalImg").src = src;
   document.getElementById("modal").classList.add("active");
