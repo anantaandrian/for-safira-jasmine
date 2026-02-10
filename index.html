@@ -51,7 +51,6 @@ body{
   gap:16px;
   margin-top:26px;
 }
-
 button{
   padding:13px 30px;
   font-size:16px;
@@ -59,7 +58,6 @@ button{
   border-radius:30px;
   cursor:pointer;
 }
-
 .yes{background:#fff;color:#ff5f9e;}
 .no{background:#ff3366;color:#fff;}
 .next{background:#fff;color:#ff5f9e;margin-top:22px;}
@@ -70,7 +68,6 @@ button{
   gap:14px;
   margin-top:20px;
 }
-
 .photo-grid img{
   width:100%;
   height:130px;
@@ -80,7 +77,6 @@ button{
   animation:slowZoom 14s ease-in-out infinite alternate;
   cursor:pointer;
 }
-
 @keyframes slowZoom{
   from{transform:scale(1)}
   to{transform:scale(1.08)}
@@ -111,8 +107,8 @@ button{
   <div class="glass-box">
     <h1>Will you be my Valentine, Safira? 🤍</h1>
     <div class="buttons">
-      <button class="yes" onclick="goToPage(2)">Yes</button>
-      <button class="no">No</button>
+      <button class="yes" id="yesBtn">Yes</button>
+      <button class="no" id="noBtn">No</button>
     </div>
   </div>
 </div>
@@ -124,8 +120,7 @@ button{
     <p>Play this song before we continue 🤍</p>
 
     <iframe
-      id="spotifyPlayer"
-      style="border-radius:12px; margin-top:12px;"
+      style="border-radius:12px;margin-top:12px"
       src="https://open.spotify.com/embed/track/34gCuhDGsG4bRPIf9bb02f"
       width="100%"
       height="80"
@@ -137,33 +132,39 @@ button{
   </div>
 </div>
 
-<!-- PAGE 3 : WORDS -->
+<!-- PAGE 3 : FULL VALENTINE TEXT -->
 <div class="page" id="page3">
   <div class="glass-box">
     <h2>Happy Valentine’s Day, Bubuu 🤍</h2>
 
     <p>
-      Today is a good reminder for us to love a little louder,
-      laugh a little more, and care a hundred times harder.
-    </p>
-
-    <p>
-      Let’s love 100x more — more smiles, more patience,
+      Today is a good reminder for us to love a little louder, laugh a little more,
+      and care a hundred times harder. Let’s love 100x more—more smiles, more patience,
       more silly moments, and more reasons to choose each other every day.
     </p>
 
     <p>
-      Let’s keep growing together, not perfectly, but happily.
+      Let’s keep growing together, not perfectly, but happily. Learning as we go,
+      teasing each other, supporting each other, and always finding our way back to love.
+    </p>
+
+    <p>
+      Happy Valentine’s Day to us. Let’s keep loving 100x more. 🤍
     </p>
 
     <button class="next" onclick="goToPage(4)">Next</button>
   </div>
 </div>
 
-<!-- PAGE 4 : PHOTOS -->
+<!-- PAGE 4 : PHOTOS + FULL TEXT -->
 <div class="page" id="page4">
   <div class="glass-box">
     <h2>Our Memories 📸</h2>
+
+    <p>
+      From our first photo to this very moment.
+      I hope we keep taking more photos together—forever.
+    </p>
 
     <div class="photo-grid">
       <img src="photo1.jpeg" onclick="openModal(this.src)">
@@ -184,6 +185,19 @@ button{
 </div>
 
 <script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn  = document.getElementById("noBtn");
+let scale = 1;
+
+/* YES BECOMES BIGGER WHEN NO CLICKED */
+noBtn.onclick = () => {
+  scale += 0.3;
+  yesBtn.style.transform = `scale(${scale})`;
+  if(scale > 2.5) noBtn.style.display = "none";
+};
+
+yesBtn.onclick = () => goToPage(2);
+
 function goToPage(page){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById("page"+page).classList.add("active");
