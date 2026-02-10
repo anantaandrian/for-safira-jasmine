@@ -26,14 +26,12 @@
       overflow: hidden;
     }
 
-    /* PAGE TRANSITION */
     .page {
       position: absolute;
       width: 100%;
       max-width: 460px;
       padding: 20px;
       box-sizing: border-box;
-
       opacity: 0;
       transform: translateY(25px);
       pointer-events: none;
@@ -46,12 +44,10 @@
       pointer-events: auto;
     }
 
-    /* GLASS BOX */
     .glass-box {
       background: rgba(0, 0, 0, 0.55);
       border-radius: 28px;
       padding: 26px 22px;
-      box-sizing: border-box;
     }
 
     h1, h2 {
@@ -63,7 +59,6 @@
       margin-bottom: 14px;
     }
 
-    /* BUTTONS */
     .buttons {
       display: flex;
       justify-content: center;
@@ -77,7 +72,6 @@
       border: none;
       border-radius: 30px;
       cursor: pointer;
-      transition: all 0.3s ease;
     }
 
     .yes {
@@ -96,11 +90,6 @@
       margin-top: 22px;
     }
 
-    iframe {
-      margin-top: 16px;
-    }
-
-    /* PHOTO GRID 3x2 */
     .photo-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -115,12 +104,12 @@
       border-radius: 18px;
       filter: brightness(0.78);
       cursor: pointer;
-
       animation: slowZoom 14s ease-in-out infinite alternate;
     }
 
-    .photo-grid img:hover {
-      filter: brightness(0.9);
+    @keyframes slowZoom {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
     }
 
     .love-text {
@@ -129,17 +118,6 @@
       font-weight: bold;
     }
 
-    /* SLOW ZOOM ANIMATION */
-    @keyframes slowZoom {
-      from {
-        transform: scale(1);
-      }
-      to {
-        transform: scale(1.08);
-      }
-    }
-
-    /* FULLSCREEN MODAL */
     .modal {
       display: none;
       position: fixed;
@@ -154,7 +132,6 @@
       max-width: 90%;
       max-height: 90%;
       border-radius: 22px;
-
       animation: slowZoom 18s ease-in-out infinite alternate;
     }
 
@@ -165,6 +142,11 @@
 </head>
 
 <body>
+
+  <!-- AUDIO -->
+  <audio id="bgMusic" loop>
+    <source src="thinking-out-loud.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- PAGE 1 -->
   <div class="page active" id="page1">
@@ -183,28 +165,18 @@
       <h2>Happy Valentine’s Day, Bubuu 🤍</h2>
 
       <p>
-        Today is a good reminder for us to love a little louder, laugh a little more,
-        and care a hundred times harder. Let’s love 100x more—more smiles, more patience,
+        Let’s love 100x more — more smiles, more patience,
         more silly moments, and more reasons to choose each other every day.
       </p>
 
       <p>
-        Let’s keep growing together, not perfectly, but happily. Learning as we go,
-        teasing each other, supporting each other, and always finding our way back to love.
+        Let’s grow together, laugh together,
+        and keep loving in our own simple, beautiful way.
       </p>
 
       <p>
-        Happy Valentine’s Day to us. Let’s keep loving 100x more. 🤍
+        Happy Valentine’s Day to us 🤍
       </p>
-
-      <iframe
-        style="border-radius:12px"
-        src="https://open.spotify.com/embed/track/34gCuhDGsG4bRPIf9bb02f"
-        width="100%"
-        height="80"
-        frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-      </iframe>
 
       <button class="next" onclick="goToPage(3)">Next</button>
     </div>
@@ -235,7 +207,7 @@
     </div>
   </div>
 
-  <!-- FULLSCREEN -->
+  <!-- MODAL -->
   <div class="modal" id="modal" onclick="closeModal()">
     <img id="modalImg">
   </div>
@@ -244,6 +216,7 @@
     let scale = 1;
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
+    const music = document.getElementById("bgMusic");
 
     noBtn.addEventListener("click", () => {
       scale += 0.3;
@@ -252,6 +225,9 @@
     });
 
     yesBtn.addEventListener("click", () => {
+      music.currentTime = 48; // mulai dari "Darling I will be loving you"
+      music.volume = 0.5;     // volume normal & nyaman
+      music.play();
       goToPage(2);
     });
 
